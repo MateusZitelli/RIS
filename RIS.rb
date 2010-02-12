@@ -32,21 +32,21 @@ class Letras
 
 	def pintar_cor
 	  (@@img2.size).times do |vez|
-			@@file << $letras[(@@img2[vez]*($letras.size-1))/255]*2
+			@@file << $letras[(@@img2[vez]*($letras.size-1))/255]
 		end
 		puts "Tamanho da fonte:"
 		@@tamFonte = gets.chomp.to_i
 		@@gc.pointsize(@@tamFonte)
 		times = @@tamFonte
-		@locLx=0
 		@locLy=@@tamFonte
 		@@gc.fill("white")
+		puts @@file.size
+		puts @@img2.size
 		(@@img2.size).times do |x|
 		  @@gc.fill("rgb("+@@img2R[x].to_s+","+@@img2G[x].to_s+","+@@img2B[x].to_s+")")
-		  @@gc.text(@locLx%@@img.columns*@@tamFonte,@locLx/@@img.columns*@@tamFonte+@@tamFonte,@@file[x].chr)
-		  @locLx += 1
+		  @@gc.text(x%@@img.columns*(@@tamFonte-@@tamFonte/5.0),x/@@img.columns*(@@tamFonte-@@tamFonte/5.0),@@file[x].chr)
     end
-		@imgFinal = Image.new(@@img.columns*@@tamFonte,@@img.rows*@@tamFonte){self.background_color = "black"}
+		@imgFinal = Image.new(@@img.columns*(@@tamFonte-@@tamFonte/5.0),@@img.rows*(@@tamFonte-@@tamFonte/5.0)){self.background_color = "black"}
 		@@gc.draw(@imgFinal)
 		@imgFinal.display
 		puts "Deseja salvar: (y/n)"
@@ -91,8 +91,6 @@ class Letras
 end
 
 teste = Letras.new
-puts "Draw Color Image, Draw BW Image or Write (drawcolor/drawbw/write)"
-varteste = gets.chomp.downcase
 if varteste == "drawbw"
 	teste.pintar_pb
 elsif varteste == "drawcolor"
@@ -100,4 +98,3 @@ elsif varteste == "drawcolor"
 elsif varteste == "write"
   teste.escrever
 end
-
